@@ -32,12 +32,12 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       Foreground="White" FontFamily="TT Interphases Mono" FontSize="18" x:Name="LineCountTextBlock"/>
+                       Foreground="White" FontSize="18" x:Name="LineCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        Foreground="White" Margin="2,0,0,2" Text="lines"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       Foreground="White" FontSize="18" x:Name="CharacterCountTextBlock"/>
+                       Foreground="White" FontSize="18" x:Name="CharacterCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        Foreground="White" Margin="2,0,0,2" Text="chars"/>
 

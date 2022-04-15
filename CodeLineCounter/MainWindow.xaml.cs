@@ -33,21 +33,36 @@ namespace CodeLineCounter
             Counter = new(Counter_Change);
 
             Counter.ProjectPath = @"E:\Projects\VisualStudio\С#\3)Other\CodeLineCounter\CodeLineCounter";
-            Counter.Extentions = new string[] { "*.cs", "*.xaml" };
+            Counter.Extensions = new string[] { ".cs", ".xaml" };
             Counter.Ignorable = new string[] { "\\obj", "\\bin", "\\.vs" };
 
-            Counter.Start();
+            Counter.StartAsync();
+        }
+
+        private static void SlowIncrementTextBlock(object sender, int newValue)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+
+            if (textBlock == null) return;
+            if (!int.TryParse(textBlock.Text, out int oldValue)) return;
+
+            while (oldValue != newValue)
+            {
+                oldValue++;
+                textBlock.Text = oldValue.ToString("N0");
+                
+                Task.Delay(5);
+            }
         }
 
         private void Counter_Change(object sender, LineCounterEventArgs e)
         {
-            // Какой-то комментарий
             LineCounter counter = (LineCounter)sender;
 
             Dispatcher.Invoke(() =>
             {
-                LineCountTextBlock.Text = $"{counter.LineCount}";
-                CharacterCountTextBlock.Text = $"{counter.CharacterCount}";
+                SlowIncrementTextBlock(LineCountTextBlock, counter.LineCount);
+                SlowIncrementTextBlock(CharacterCountTextBlock, counter.CharacterCount);
             });
         }
 

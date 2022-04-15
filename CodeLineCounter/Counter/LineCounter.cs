@@ -19,10 +19,22 @@ namespace CodeLineCounter.Counter
         public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
         public string ProjectPath { get; set; } = default!;
+        public int FileCount { get; set; } = default!;
 
         public IEnumerable<string> Ignorable { get; set; } = default!;
-        public IEnumerable<string> Extentions { get; set; } = default!;
-        public IEnumerable<string> FilePaths { get; set; } = default!;
+        public IEnumerable<string> Extensions { get; set; } = default!;
+        public List<FileData> Files { get; private set; } = default!;
+
+        public List<FileData> TrackedFiles
+        {
+            get
+            {
+                return Files?.Where(file => Extensions.Contains(file.Extension))
+                    .Where(file => Ignorable.Any(ign => file.FullPath.StartsWith(ProjectPath + ign)))
+                    .ToList()
+                    ?? null!;
+            }
+        }
 
         private int _lineCount = default!;
         public int LineCount
@@ -50,54 +62,49 @@ namespace CodeLineCounter.Counter
             }
         }
 
-        private static IEnumerable<string> GetFiles(string path, IEnumerable<string> extentions, IEnumerable<string> ignore)
+        private static IEnumerable<FileData> GetFiles(string path)
         {
-            if (path == null) return default!;
-
-            IEnumerable<string> files = extentions == null
-                ? Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
-                : Enumerable.Range(0, extentions.Count())
-                    .Select(i => Directory.GetFiles(path, extentions.ToArray()[i], SearchOption.AllDirectories))
-                    .SelectMany(i => i);
-
-            files = files.Where(file => !ignore.Any(ign => ign.Contains(path + file)));
-
-            return files;
+            return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileData(x));
         }
 
-        private async void CheckEditCountFiles()
+        private static int GetFileCount(string path)
         {
-            await Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (GetFiles(ProjectPath, Extentions, Ignorable).Count() != (FilePaths?.Count() ?? 0))
-                    {
-                        FilePaths = GetFiles(ProjectPath, Extentions, Ignorable);
-                    }
-
-                    Task.Delay(1000);
-                }
-            }, CancellationTokenSource.Token);
+            return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Length;
         }
 
-        public async void Start()
+        private async void RunChangeCountFilesCheckerAsync()
         {
-            await Task.Run(() =>
+            while (true)
             {
-                CheckEditCountFiles();
+                if (CancellationTokenSource.IsCancellationRequested) return;
 
-                while (true)
+
+                if (FileCount != GetFileCount(ProjectPath))
                 {
-                    try
-                    {
-                        LineCount = FilePaths?.Select(file => File.ReadAllText(file).Split('\n').Length).Sum() ?? 0;
-                        CharacterCount = FilePaths?.Select(file => File.ReadAllText(file).Length).Sum() ?? 0;
-                    }
-                    catch (Exception e) { }
-                    finally { Task.Delay(1000); }
+                    FileCount = GetFileCount(ProjectPath);
+                    Files = GetFiles(ProjectPath).ToList();
                 }
-            }, CancellationTokenSource.Token);
+
+                await Task.Delay(1000);
+            }
+        }
+
+        public async void StartAsync()
+        {
+            RunChangeCountFilesCheckerAsync();
+
+            while (true)
+            {
+                if (CancellationTokenSource.IsCancellationRequested) return;
+
+                if (TrackedFiles?.Select(file => file.Update()).Any(x => x) ?? false)
+                {
+                    LineCount = TrackedFiles?.Select(file => file.LineCount).Sum() ?? 0;
+                    CharacterCount = TrackedFiles?.Select(file => file.CharacterCount).Sum() ?? 0;
+                }
+
+                await Task.Delay(100);
+            }
         }
     }
 }
