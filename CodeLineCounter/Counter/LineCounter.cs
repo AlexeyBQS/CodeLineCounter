@@ -21,18 +21,21 @@ namespace CodeLineCounter.Counter
         public string ProjectPath { get; set; } = default!;
         public int FileCount { get; set; } = default!;
 
-        public IEnumerable<string> Ignorable { get; set; } = default!;
-        public IEnumerable<string> Extensions { get; set; } = default!;
+        public IEnumerable<string> IgnorableDictionaries { get; set; } = default!;
+        public IEnumerable<string> IgnorableFiles { get; set; } = default!;
+        public IEnumerable<string> IgnorableExtensions { get; set; } = default!;
         public List<FileData> Files { get; private set; } = default!;
 
         public List<FileData> TrackedFiles
         {
             get
             {
-                return Files?.Where(file => Extensions.Contains(file.Extension))
-                    .Where(file => Ignorable.Any(ign => file.FullPath.StartsWith(ProjectPath + ign)))
+                return Files?
+                    .Where(file => IgnorableDictionaries?.All(ignorableDictionary => !file.FullPath.Contains(ProjectPath + ignorableDictionary)) ?? true)
+                    .Where(file => IgnorableExtensions?.All(ignorableExtension => file.Extension != ignorableExtension) ?? true)
+                    .Where(file => IgnorableFiles?.All(ignorableFile => !file.FullPath.Contains(ProjectPath + ignorableFile)) ?? true)
                     .ToList()
-                    ?? null!;
+                    ?? default!;
             }
         }
 

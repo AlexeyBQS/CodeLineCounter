@@ -5,12 +5,13 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style x:Key="MainWindowStyle" TargetType="Window">
-            <Setter Property="Width" Value="200"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Height" Value="50"/>
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="Topmost" Value="True"/>
-            <Setter Property="Background" Value="Black"/>
+            <Setter Property="AllowsTransparency" Value="True"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
     </Application.Resources>
 </Application>

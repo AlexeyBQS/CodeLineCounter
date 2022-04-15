@@ -12,6 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -20,7 +21,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -34,16 +35,18 @@
             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
                        Foreground="White" FontSize="18" x:Name="LineCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       Foreground="White" Margin="2,0,0,2" Text="lines"/>
+                       Foreground="White" Margin="2,0,5,2" Text="lines"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
                        Foreground="White" FontSize="18" x:Name="CharacterCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       Foreground="White" Margin="2,0,0,2" Text="chars"/>
+                       Foreground="White" Margin="2,0,5,2" Text="chars"/>
 
         </Grid>
 
-        <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20"  BorderThickness="0" Background="Transparent" Foreground="White"
+        <Button Grid.Row="0" Grid.Column="1" Width="20" Height="20" BorderThickness="0" Background="Transparent" Foreground="White"
                 x:Name="CloseButton" Click="CloseButton_Click" Content="X"/>
+        <Button Grid.Row="1" Grid.Column="1" Width="20" Height="20" BorderThickness="0" Background="Transparent" Foreground="White"
+                x:Name="SettingButton" Click="SettingButton_Click" Content="S"/>
     </Grid>
 </Window>

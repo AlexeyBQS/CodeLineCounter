@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace CodeLineCounter
 {
@@ -33,26 +35,11 @@ namespace CodeLineCounter
             Counter = new(Counter_Change);
 
             Counter.ProjectPath = @"E:\Projects\VisualStudio\С#\3)Other\CodeLineCounter\CodeLineCounter";
-            Counter.Extensions = new string[] { ".cs", ".xaml" };
-            Counter.Ignorable = new string[] { "\\obj", "\\bin", "\\.vs" };
+            Counter.IgnorableExtensions = new string[] { ".csproj", ".user" };
+            Counter.IgnorableFiles = new string[] { "\\AssemblyInfo.cs" };
+            Counter.IgnorableDictionaries = new string[] { "\\bin", "\\obj" };
 
             Counter.StartAsync();
-        }
-
-        private static void SlowIncrementTextBlock(object sender, int newValue)
-        {
-            TextBlock textBlock = (TextBlock)sender;
-
-            if (textBlock == null) return;
-            if (!int.TryParse(textBlock.Text, out int oldValue)) return;
-
-            while (oldValue != newValue)
-            {
-                oldValue++;
-                textBlock.Text = oldValue.ToString("N0");
-                
-                Task.Delay(5);
-            }
         }
 
         private void Counter_Change(object sender, LineCounterEventArgs e)
@@ -61,8 +48,8 @@ namespace CodeLineCounter
 
             Dispatcher.Invoke(() =>
             {
-                SlowIncrementTextBlock(LineCountTextBlock, counter.LineCount);
-                SlowIncrementTextBlock(CharacterCountTextBlock, counter.CharacterCount);
+                LineCountTextBlock.Text = counter.LineCount.ToString("N0");
+                CharacterCountTextBlock.Text = counter.CharacterCount.ToString("N0");
             });
         }
 
@@ -74,6 +61,11 @@ namespace CodeLineCounter
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void SettingButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
