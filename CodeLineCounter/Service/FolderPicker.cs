@@ -11,6 +11,7 @@ using System.Windows.Interop;
 
 namespace CodeLineCounter.Service
 {
+    // Author (Andrew): https://stackoverflow.com/questions/11624298/how-do-i-use-openfiledialog-to-select-a-folder    
     public class FolderPicker
     {
         public virtual string ResultPath { get; protected set; } = default!;
