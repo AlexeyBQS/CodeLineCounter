@@ -28,13 +28,11 @@ namespace CodeLineCounter
             InitializeComponent();
         }
 
-        private SettingWindow SettingWindow { get; set; } = default!;
         private LineCounter Counter { get; set; } = null!;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Counter = new(Counter_Change);
-
 
             //Counter.ProjectPath = @"C:\Examwork\Product";
             //Counter.IgnorableExtensions = new string[] { ".csproj", ".user", ".png", ".jpg", ".ico", ".jpeg", ".db" };
@@ -47,9 +45,6 @@ namespace CodeLineCounter
             Counter.IgnorableFolders = new string[] { "\\bin", "\\obj" };
 
             Counter.StartAsync();
-
-            SettingWindow = new(Counter);
-            SettingWindow.Owner = this;
         }
 
         private void Counter_Change(object sender, LineCounterEventArgs e)
@@ -70,7 +65,10 @@ namespace CodeLineCounter
 
         private void SettingButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingWindow.Show();
+            SettingWindow settingWindow = new(Counter);
+            settingWindow.Owner = this;
+            
+            settingWindow.Show();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -81,7 +79,6 @@ namespace CodeLineCounter
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Counter.Stop();
-            SettingWindow.Close();
         }
     }
 }

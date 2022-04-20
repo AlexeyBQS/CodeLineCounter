@@ -1,4 +1,6 @@
 ﻿using CodeLineCounter.Counter;
+using CodeLineCounter.Service;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,37 +34,56 @@ namespace CodeLineCounter
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Title = "Настройки";
+
+            ProjectPath_UpdateBlock();
         }
 
         #region ProjectPath
 
         private void ProjectPath_UpdateBlock()
         {
-
+            ProjectPathTextBox.Text = Counter.ProjectPath;
         }
 
         private void ChangeProjectPathButton_Click(object sender, RoutedEventArgs e)
         {
+            FolderPicker dialog = new();
+            dialog.InputPath = Counter.ProjectPath ?? @"C:\Windows\system32";
 
+            if (dialog.ShowDialog(this) == true)
+            {
+                Counter.ProjectPath = dialog.ResultPath;
+            }
+
+            ProjectPath_UpdateBlock();
         }
 
         #endregion
 
         #region IgnorableExtensions
 
+        private void IgnorableExtensions_UpdateBlock()
+        {
 
+        }
 
         #endregion
 
         #region IgnorableFolders
 
+        private void IgnorableFolders_UpdateBlock()
+        {
 
+        }
 
         #endregion
 
         #region IgnorableFiles
 
+        private void IgnorableFiles_UpdateBlock()
+        {
 
+        }
 
         #endregion        
     }
