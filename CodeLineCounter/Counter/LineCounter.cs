@@ -21,9 +21,9 @@ namespace CodeLineCounter.Counter
         public string ProjectPath { get; set; } = default!;
         public int FileCount { get; set; } = default!;
 
-        public IEnumerable<string> IgnorableFolders { get; set; } = default!;
-        public IEnumerable<string> IgnorableFiles { get; set; } = default!;
-        public IEnumerable<string> IgnorableExtensions { get; set; } = default!;
+        public List<string> IgnorableFolders { get; set; } = default!;
+        public List<string> IgnorableFiles { get; set; } = default!;
+        public List<string> IgnorableExtensions { get; set; } = default!;
         public List<FileData> Files { get; private set; } = default!;
 
         public List<FileData> TrackedFiles

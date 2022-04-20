@@ -40,9 +40,9 @@ namespace CodeLineCounter
             //Counter.IgnorableFolders = new string[] { "\\.vs", "\\GenTestData\\bin", "\\GenTestData\\obj", "\\Schedule\\bin", "\\Schedule\\obj", };
 
             Counter.ProjectPath = @"E:\Projects\VisualStudio\С#\3)Other\CodeLineCounter\CodeLineCounter";
-            Counter.IgnorableExtensions = new string[] { ".csproj", ".user", ".png", ".jpg", ".ico", ".jpeg", ".db" };
-            Counter.IgnorableFiles = new string[] { "\\AssemblyInfo.cs" };
-            Counter.IgnorableFolders = new string[] { "\\bin", "\\obj" };
+            Counter.IgnorableExtensions = (new string[] { ".csproj", ".user", ".png", ".jpg", ".ico", ".jpeg", ".db" }).ToList();
+            Counter.IgnorableFiles = (new string[] { "\\AssemblyInfo.cs" }).ToList();
+            Counter.IgnorableFolders = (new string[] { "\\bin", "\\obj" }).ToList();
 
             Counter.StartAsync();
         }

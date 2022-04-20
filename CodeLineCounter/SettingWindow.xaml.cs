@@ -37,6 +37,9 @@ namespace CodeLineCounter
             Title = "Настройки";
 
             ProjectPath_UpdateBlock();
+            IgnorableExtensions_UpdateBlock();
+            IgnorableFolders_UpdateBlock();
+            IgnorableFiles_UpdateBlock();
         }
 
         #region ProjectPath
@@ -65,7 +68,47 @@ namespace CodeLineCounter
 
         private void IgnorableExtensions_UpdateBlock()
         {
+            IgnorableExtensionsListBox.ItemsSource = Counter.IgnorableExtensions.OrderBy(x => x);
+        }
 
+        private void IgnorableExtensionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IgnorableExtensionsListBox.SelectedItems.Count > 0)
+            {
+                RemoveIgnoreExtensionButton.IsEnabled = true;
+            }
+            else
+            {
+                RemoveIgnoreExtensionButton.IsEnabled = false;
+            }
+        }
+
+        private void AddIgnoreExtensionButton_Click(object sender, RoutedEventArgs e)
+        {
+            string value = IgnoreExtensionTextBox.Text;
+
+            if (!string.IsNullOrEmpty(value) && value[0] == '.' && value.Count(x => x == '.') == 1)
+            {
+                if (!Counter.IgnorableExtensions.Where(x => x == value).Any())
+                {
+                    Counter.IgnorableExtensions.Add(value);
+                    IgnorableExtensions_UpdateBlock();                 
+                }
+                
+                IgnoreExtensionTextBox.Text = string.Empty;
+            }
+        }
+
+        private void RemoveIgnoreExtensionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (IgnorableExtensionsListBox.SelectedItems.Count > 0)
+            {
+                string removeValue = (string)IgnorableExtensionsListBox.SelectedItem;
+
+                Counter.IgnorableExtensions.Remove(removeValue);
+
+                IgnorableExtensions_UpdateBlock();
+            }
         }
 
         #endregion
@@ -86,6 +129,6 @@ namespace CodeLineCounter
 
         }
 
-        #endregion        
+        #endregion
     }
 }

@@ -35,9 +35,9 @@
 
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
                 <TextBlock Grid.Row="0" Text="Путь к проекту:" FontSize="16" HorizontalAlignment="Left"/>
@@ -49,7 +49,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0" x:Name="ProjectPathTextBox" IsReadOnly="True" Width="250" FontSize="16" Height="25"/>
+                    <TextBox Grid.Column="0" x:Name="ProjectPathTextBox" IsReadOnly="True"
+                             VerticalContentAlignment="Center" Width="250" FontSize="14" Height="25"/>
+                    
                     <Button Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Изменить"
                             x:Name="ChangePathProjectButton" Click="ChangeProjectPathButton_Click"/>
                 </Grid>
@@ -57,39 +59,76 @@
 
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Text="Игнорируемые расширения:" FontSize="16" HorizontalAlignment="Left"/>
 
                 <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox x:Name="IgnorableExtentions" Width="250" Height="100">
-                        
+                    <TextBox Grid.Row="0" Grid.Column="0" x:Name="IgnoreExtensionTextBox"
+                             VerticalContentAlignment="Center" Width="250" FontSize="14" Height="25"/>
+                    
+                    <Button Grid.Row="0" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Добавить"
+                            x:Name="AddIgnoreExtensionButton" Click="AddIgnoreExtensionButton_Click"/>
+
+                    <ListBox Grid.Row="2" Grid.Column="0" Width="250" Height="100" x:Name="IgnorableExtensionsListBox"
+                             SelectionChanged="IgnorableExtensionsListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="14"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
-                    
-                    
+
+                    <Button Grid.Row="2" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Удалить" IsEnabled="False"
+                            x:Name="RemoveIgnoreExtensionButton" Click="RemoveIgnoreExtensionButton_Click" VerticalAlignment="Top"/>
                 </Grid>
             </Grid>
 
             <Grid Grid.Row="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Text="Игнорируемые папки:" FontSize="16" HorizontalAlignment="Left"/>
 
                 <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Width="250" Height="100"/>
+
+                    <Button Grid.Row="0" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Добавить"/>
+
+                    <Button Grid.Row="2" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Удалить"
+                            IsEnabled="False"/>
                 </Grid>
             </Grid>
 
