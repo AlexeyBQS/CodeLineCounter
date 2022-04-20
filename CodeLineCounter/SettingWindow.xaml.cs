@@ -3,6 +3,7 @@ using CodeLineCounter.Service;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -48,7 +49,7 @@ namespace CodeLineCounter
         private void ChangeProjectPathButton_Click(object sender, RoutedEventArgs e)
         {
             FolderPicker dialog = new();
-            dialog.InputPath = Counter.ProjectPath ?? @"C:\Windows\system32";
+            dialog.InputPath = Counter.ProjectPath ?? Directory.GetCurrentDirectory();
 
             if (dialog.ShowDialog(this) == true)
             {
