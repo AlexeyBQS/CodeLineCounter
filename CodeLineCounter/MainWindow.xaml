@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Style="{StaticResource MainWindowStyle}"
         Title="MainWindow" Loaded="Window_Loaded"
-        MouseDown="MainWindow_MouseDown">
+        MouseDown="MainWindow_MouseDown" Closing="Window_Closing">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -35,12 +35,12 @@
             <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
                        Foreground="White" FontSize="18" x:Name="LineCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       Foreground="White" Margin="2,0,5,2" Text="lines"/>
+                       Foreground="White" Margin="5,0,5,2" Text="lines"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"
                        Foreground="White" FontSize="18" x:Name="CharacterCountTextBlock" Text="0"/>
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       Foreground="White" Margin="2,0,5,2" Text="chars"/>
+                       Foreground="White" Margin="5,0,5,2" Text="chars"/>
 
         </Grid>
 

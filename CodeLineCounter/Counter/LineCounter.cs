@@ -21,7 +21,7 @@ namespace CodeLineCounter.Counter
         public string ProjectPath { get; set; } = default!;
         public int FileCount { get; set; } = default!;
 
-        public IEnumerable<string> IgnorableDictionaries { get; set; } = default!;
+        public IEnumerable<string> IgnorableFolders { get; set; } = default!;
         public IEnumerable<string> IgnorableFiles { get; set; } = default!;
         public IEnumerable<string> IgnorableExtensions { get; set; } = default!;
         public List<FileData> Files { get; private set; } = default!;
@@ -31,7 +31,7 @@ namespace CodeLineCounter.Counter
             get
             {
                 return Files?
-                    .Where(file => IgnorableDictionaries?.All(ignorableDictionary => !file.FullPath.Contains(ProjectPath + ignorableDictionary)) ?? true)
+                    .Where(file => IgnorableFolders?.All(ignorableFolder => !file.FullPath.Contains(ProjectPath + ignorableFolder)) ?? true)
                     .Where(file => IgnorableExtensions?.All(ignorableExtension => file.Extension != ignorableExtension) ?? true)
                     .Where(file => IgnorableFiles?.All(ignorableFile => !file.FullPath.Contains(ProjectPath + ignorableFile)) ?? true)
                     .ToList()
@@ -108,6 +108,11 @@ namespace CodeLineCounter.Counter
 
                 await Task.Delay(100);
             }
+        }
+
+        public void Stop()
+        {
+            CancellationTokenSource.Cancel();
         }
     }
 }

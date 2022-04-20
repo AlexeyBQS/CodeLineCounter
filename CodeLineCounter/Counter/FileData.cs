@@ -27,15 +27,21 @@ namespace CodeLineCounter.Counter
 
         public bool Update()
         {
-            if (File.GetLastWriteTime(FullPath) != LastChange)
+            try
             {
-                LastChange = File.GetLastWriteTime(FullPath);
+                if (File.GetLastWriteTime(FullPath) != LastChange)
+                {
 
-                LineCount = File.ReadAllLines(FullPath).Length;
-                CharacterCount = File.ReadAllText(FullPath).Length;
+                    LastChange = File.GetLastWriteTime(FullPath);
 
-                return true;
+                    LineCount = File.ReadAllLines(FullPath).Length;
+                    CharacterCount = File.ReadAllText(FullPath).Length;
+
+
+                    return true;
+                }
             }
+            catch { }
 
             return false;
         }

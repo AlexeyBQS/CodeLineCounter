@@ -28,18 +28,28 @@ namespace CodeLineCounter
             InitializeComponent();
         }
 
+        private SettingWindow SettingWindow { get; set; } = default!;
         private LineCounter Counter { get; set; } = null!;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Counter = new(Counter_Change);
 
+
+            //Counter.ProjectPath = @"C:\Examwork\Product";
+            //Counter.IgnorableExtensions = new string[] { ".csproj", ".user", ".png", ".jpg", ".ico", ".jpeg", ".db" };
+            //Counter.IgnorableFiles = new string[] { "\\GenTestData\\AssemblyInfo.cs", "\\Schedule\\AssemblyInfo.cs" };
+            //Counter.IgnorableFolders = new string[] { "\\.vs", "\\GenTestData\\bin", "\\GenTestData\\obj", "\\Schedule\\bin", "\\Schedule\\obj", };
+
             Counter.ProjectPath = @"E:\Projects\VisualStudio\С#\3)Other\CodeLineCounter\CodeLineCounter";
-            Counter.IgnorableExtensions = new string[] { ".csproj", ".user" };
+            Counter.IgnorableExtensions = new string[] { ".csproj", ".user", ".png", ".jpg", ".ico", ".jpeg", ".db" };
             Counter.IgnorableFiles = new string[] { "\\AssemblyInfo.cs" };
-            Counter.IgnorableDictionaries = new string[] { "\\bin", "\\obj" };
+            Counter.IgnorableFolders = new string[] { "\\bin", "\\obj" };
 
             Counter.StartAsync();
+
+            SettingWindow = new(Counter);
+            SettingWindow.Owner = this;
         }
 
         private void Counter_Change(object sender, LineCounterEventArgs e)
@@ -58,14 +68,20 @@ namespace CodeLineCounter
             if (e.ChangedButton == MouseButton.Left) this.DragMove();
         }
 
+        private void SettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingWindow.Show();
+        }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void SettingButton_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            Counter.Stop();
+            SettingWindow.Close();
         }
     }
 }

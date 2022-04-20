@@ -5,8 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeLineCounter"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="450" Width="800">
+        Style="{StaticResource SettingWindowStyle}"
+        Title="SettingWindow" Loaded="Window_Loaded">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Путь к проекту:" FontSize="16" HorizontalAlignment="Left"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" x:Name="PathTextBox" IsReadOnly="True" Width="250" FontSize="16" Height="25"/>
+                    <Button Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Изменить"
+                            x:Name="ChangePathProjectButton" Click="ChangeProjectPathButton_Click"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Игнорируемые расширения:" FontSize="16" HorizontalAlignment="Left"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="IgnorableExtentions" Width="250" Height="100">
+                        
+                    </ListBox>
+                    
+                    
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Игнорируемые папки:" FontSize="16" HorizontalAlignment="Left"/>
+
+                <Grid Grid.Row="2">
+
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Игнорируемые файлы:" FontSize="16" HorizontalAlignment="Left"/>
+
+                <Grid Grid.Row="2">
+
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

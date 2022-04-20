@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CodeLineCounter.Counter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +21,49 @@ namespace CodeLineCounter
     /// </summary>
     public partial class SettingWindow : Window
     {
-        public SettingWindow()
+        public SettingWindow(LineCounter lineCounter)
         {
+            Counter = lineCounter;
             InitializeComponent();
         }
+
+        private LineCounter Counter { get; set; } = default!;
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Title = "Настройки";
+        }
+
+        #region ProjectPath
+
+        private void ProjectPath_UpdateBlock()
+        {
+
+        }
+
+        private void ChangeProjectPathButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region IgnorableExtensions
+
+
+
+        #endregion
+
+        #region IgnorableFolders
+
+
+
+        #endregion
+
+        #region IgnorableFiles
+
+
+
+        #endregion        
     }
 }
