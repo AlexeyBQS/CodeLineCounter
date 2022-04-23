@@ -92,16 +92,16 @@ namespace CodeLineCounter
                 if (!Counter.IgnorableExtensions.Where(x => x == value).Any())
                 {
                     Counter.IgnorableExtensions.Add(value);
-                    IgnorableExtensions_UpdateBlock();                 
+                    IgnorableExtensions_UpdateBlock();
                 }
-                
+
                 IgnoreExtensionTextBox.Text = string.Empty;
             }
         }
 
         private void RemoveIgnoreExtensionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IgnorableExtensionsListBox.SelectedItems.Count > 0)
+            if (IgnorableExtensionsListBox.SelectedItem != null)
             {
                 string removeValue = (string)IgnorableExtensionsListBox.SelectedItem;
 
@@ -117,7 +117,51 @@ namespace CodeLineCounter
 
         private void IgnorableFolders_UpdateBlock()
         {
+            IgnorableFoldersListBox.ItemsSource = Counter.IgnorableFolders.OrderBy(x => x);
+        }
 
+        private void IgnorableFoldersListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IgnorableFoldersListBox.SelectedItems.Count > 0)
+            {
+                RemoveIgnoreFolderButton.IsEnabled = true;
+            }
+            else
+            {
+                RemoveIgnoreFolderButton.IsEnabled = false;
+            }
+        }
+
+        private void AddIgnoreFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderPicker dialog = new();
+            dialog.InputPath = Counter.ProjectPath ?? Directory.GetCurrentDirectory();
+
+            if (dialog.ShowDialog(this) == true)
+            {
+                if (dialog.ResultPath.Contains(Counter.ProjectPath ?? string.Empty))
+                {
+                    string ignoreFolder = dialog.ResultPath.Replace(Counter.ProjectPath ?? string.Empty, "");
+
+                    if (!Counter.IgnorableFolders.Contains(ignoreFolder))
+                    {
+                        Counter.IgnorableFolders.Add(ignoreFolder);
+                        IgnorableFolders_UpdateBlock();
+                    }
+                }
+            }
+        }
+
+        private void RemoveIgnoreFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (IgnorableFoldersListBox.SelectedItem != null)
+            {
+                string removeIgnoreFolder = (string)IgnorableFoldersListBox.SelectedItem;
+
+                Counter.IgnorableFolders.Remove(removeIgnoreFolder);
+
+                IgnorableFolders_UpdateBlock();
+            }
         }
 
         #endregion

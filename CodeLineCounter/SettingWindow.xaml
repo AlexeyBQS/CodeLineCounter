@@ -123,12 +123,20 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Width="250" Height="100"/>
+                    <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Width="250" Height="100" x:Name="IgnorableFoldersListBox"
+                             SelectionChanged="IgnorableFoldersListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="14"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
-                    <Button Grid.Row="0" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Добавить"/>
+                    <Button Grid.Row="0" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Добавить"
+                            x:Name="AddIgnoreFolderButton" Click="AddIgnoreFolderButton_Click"/>
 
                     <Button Grid.Row="2" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Удалить"
-                            IsEnabled="False"/>
+                            IsEnabled="False" x:Name="RemoveIgnoreFolderButton" Click="RemoveIgnoreFolderButton_Click"/>
                 </Grid>
             </Grid>
 
