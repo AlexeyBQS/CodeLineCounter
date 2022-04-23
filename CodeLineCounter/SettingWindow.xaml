@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CodeLineCounter"
         mc:Ignorable="d"
         Style="{StaticResource SettingWindowStyle}"
-        Title="SettingWindow" Loaded="Window_Loaded">
+        Title="SettingWindow" Loaded="Window_Loaded" Closing="Window_Closing">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -86,7 +86,7 @@
                             x:Name="AddIgnoreExtensionButton" Click="AddIgnoreExtensionButton_Click"/>
 
                     <ListBox Grid.Row="2" Grid.Column="0" Width="250" Height="100" x:Name="IgnorableExtensionsListBox"
-                             SelectionChanged="IgnorableExtensionsListBox_SelectionChanged">
+                             SelectionMode="Single" SelectionChanged="IgnorableExtensionsListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontSize="14"/>
@@ -124,7 +124,7 @@
                     </Grid.ColumnDefinitions>
 
                     <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Width="250" Height="100" x:Name="IgnorableFoldersListBox"
-                             SelectionChanged="IgnorableFoldersListBox_SelectionChanged">
+                             SelectionMode="Single" SelectionChanged="IgnorableFoldersListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontSize="14"/>
@@ -150,7 +150,34 @@
                 <TextBlock Grid.Row="0" Text="Игнорируемые файлы:" FontSize="16" HorizontalAlignment="Left"/>
 
                 <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Width="250" Height="100" x:Name="IgnorableFilesListBox"
+                             SelectionMode="Single" SelectionChanged="IgnorableFilesListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="14"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button Grid.Row="0" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Добавить"
+                            x:Name="AddIgnoreFileButton" Click="AddIgnoreFileButton_Click"/>
+
+                    <Button Grid.Row="2" Grid.Column="2" FontSize="14" Width="80" Height="25" Content="Удалить"
+                            IsEnabled="False" x:Name="RemoveIgnoreFileButton" Click="RemoveIgnoreFileButton_Click"/>
                 </Grid>
             </Grid>
         </Grid>

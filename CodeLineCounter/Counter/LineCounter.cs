@@ -65,6 +65,8 @@ namespace CodeLineCounter.Counter
             }
         }
 
+        private bool ForceUpdateCount { get; set; } = false;
+
         private static IEnumerable<FileData> GetFiles(string path)
         {
             return Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileData(x));
@@ -81,11 +83,12 @@ namespace CodeLineCounter.Counter
             {
                 if (CancellationTokenSource.IsCancellationRequested) return;
 
-
-                if (FileCount != GetFileCount(ProjectPath))
+                if (FileCount != GetFileCount(ProjectPath) || ForceUpdateCount)
                 {
                     FileCount = GetFileCount(ProjectPath);
                     Files = GetFiles(ProjectPath).ToList();
+
+                    ForceUpdateCount = false;
                 }
 
                 await Task.Delay(1000);
@@ -108,6 +111,11 @@ namespace CodeLineCounter.Counter
 
                 await Task.Delay(100);
             }
+        }
+
+        public void ForceUpdate()
+        {
+            ForceUpdateCount = true;
         }
 
         public void Stop()

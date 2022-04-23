@@ -41,6 +41,11 @@ namespace CodeLineCounter
             IgnorableFolders_UpdateBlock();
             IgnorableFiles_UpdateBlock();
         }
+        
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Counter.ForceUpdate();
+        }
 
         #region ProjectPath
 
@@ -170,7 +175,49 @@ namespace CodeLineCounter
 
         private void IgnorableFiles_UpdateBlock()
         {
+            IgnorableFilesListBox.ItemsSource = Counter.IgnorableFiles.OrderBy(x => x);
+        }
 
+        private void IgnorableFilesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IgnorableFilesListBox.SelectedItems.Count > 0)
+            {
+                RemoveIgnoreFileButton.IsEnabled = true;
+            }
+            else
+            {
+                RemoveIgnoreFileButton.IsEnabled = false;
+            }
+        }
+
+        private void AddIgnoreFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new();
+            dialog.InitialDirectory = Counter.ProjectPath ?? Directory.GetCurrentDirectory();
+            dialog.Multiselect = false;
+
+            if (dialog.ShowDialog(this) == true)
+            {
+                string ignoreFile = dialog.FileName.Replace(Counter.ProjectPath ?? string.Empty, "");
+
+                if (!Counter.IgnorableFiles.Contains(ignoreFile))
+                {
+                    Counter.IgnorableFiles.Add(ignoreFile);
+                    IgnorableFiles_UpdateBlock();
+                }
+            }
+        }
+
+        private void RemoveIgnoreFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (IgnorableFilesListBox.SelectedItem != null)
+            {
+                string removeIgnoreFile = (string)IgnorableFilesListBox.SelectedItem;
+
+                Counter.IgnorableFiles.Remove(removeIgnoreFile);
+
+                IgnorableFiles_UpdateBlock();
+            }
         }
 
         #endregion
