@@ -103,10 +103,10 @@ namespace CodeLineCounter.Counter
             {
                 if (CancellationTokenSource.IsCancellationRequested) return;
 
-                if (TrackedFiles?.Select(file => file.Update()).Any(x => x) ?? false)
+                if (TrackedFiles?.AsParallel().Select(file => file.Update()).Any(x => x) ?? false)
                 {
-                    LineCount = TrackedFiles?.Select(file => file.LineCount).Sum() ?? 0;
-                    CharacterCount = TrackedFiles?.Select(file => file.CharacterCount).Sum() ?? 0;
+                    LineCount = TrackedFiles?.AsParallel().Sum(file => file.LineCount) ?? 0;
+                    CharacterCount = TrackedFiles?.AsParallel().Sum(file => file.CharacterCount) ?? 0;
                 }
 
                 await Task.Delay(100);
